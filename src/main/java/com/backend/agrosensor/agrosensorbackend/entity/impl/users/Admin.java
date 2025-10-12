@@ -1,4 +1,4 @@
-package com.backend.agrosensor.agrosensorbackend.entity.impl;
+package com.backend.agrosensor.agrosensorbackend.entity.impl.users;
 
 import com.backend.agrosensor.agrosensorbackend.entity.base.AbstractUser;
 import jakarta.persistence.Entity;

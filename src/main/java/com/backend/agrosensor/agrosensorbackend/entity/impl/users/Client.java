@@ -1,10 +1,8 @@
-package com.backend.agrosensor.agrosensorbackend.entity.impl;
+package com.backend.agrosensor.agrosensorbackend.entity.impl.users;
 
 import com.backend.agrosensor.agrosensorbackend.entity.base.AbstractUser;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
-
-import java.util.List;
 
 @Entity
 @Table(name = "clients")
