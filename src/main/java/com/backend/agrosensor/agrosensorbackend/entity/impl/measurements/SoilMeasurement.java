@@ -8,7 +8,7 @@ import lombok.Data;
 @Data
 @Entity
 @Table(name = "soil_measurement")
-public class SoilMeasurements extends Measurement {
+public class SoilMeasurement extends Measurement {
     private Float soilIluminance;
     private Float soilMoisture;
 }
