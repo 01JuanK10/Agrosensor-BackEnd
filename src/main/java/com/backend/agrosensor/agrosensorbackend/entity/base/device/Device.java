@@ -1,8 +1,11 @@
 package com.backend.agrosensor.agrosensorbackend.entity.base.device;
 
+import com.backend.agrosensor.agrosensorbackend.entity.base.Measurement;
 import com.backend.agrosensor.agrosensorbackend.entity.impl.users.Client;
 import jakarta.persistence.*;
 import lombok.Data;
+
+import java.util.List;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
@@ -20,5 +23,9 @@ public abstract class Device {
     @ManyToOne
     @JoinColumn(name = "client_id")
     private Client client;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "device")
+    private List<Measurement> measurements;
+
 
 }

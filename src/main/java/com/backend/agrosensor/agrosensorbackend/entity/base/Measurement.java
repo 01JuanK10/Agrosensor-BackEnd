@@ -1,5 +1,6 @@
 package com.backend.agrosensor.agrosensorbackend.entity.base;
 
+import com.backend.agrosensor.agrosensorbackend.entity.base.device.Device;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -16,5 +17,13 @@ public abstract class Measurement {
     private LocalDateTime dateTime;
     private Float environmentMoisture;
     private Float environmentTemperature;
+
+    @ManyToOne
+    @JoinColumn(name = "device_id")
+    private Device device;
+
+    @OneToOne
+    @JoinColumn(name = "notification_id")
+    private Notification notification;
 
 }
