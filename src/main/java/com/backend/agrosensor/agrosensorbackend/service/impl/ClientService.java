@@ -10,27 +10,27 @@ import java.util.List;
 public class ClientService implements IUserService<Client> {
 
     @Override
-    public Client create(Client user) {
+    public Client create(Client user) throws RuntimeException {
         return null;
     }
 
     @Override
-    public Client findByCc(Long cc) {
+    public Client findByCc(Long cc) throws RuntimeException {
         return null;
     }
 
     @Override
-    public List<Client> findAll() {
+    public List<Client> findAll(){
         return List.of();
     }
 
     @Override
-    public Client update(Client user) {
+    public Client update(Client user) throws RuntimeException {
         return null;
     }
 
     @Override
-    public void delete(Client user) {
+    public void delete(Client user) throws RuntimeException {
 
     }
 }

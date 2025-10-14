@@ -10,12 +10,12 @@ import java.util.List;
 public class AdminService implements IUserService<Admin> {
 
     @Override
-    public Admin create(Admin user) {
+    public Admin create(Admin user) throws RuntimeException {
         return null;
     }
 
     @Override
-    public Admin findByCc(Long cc) {
+    public Admin findByCc(Long cc) throws RuntimeException {
         return null;
     }
 
@@ -25,12 +25,12 @@ public class AdminService implements IUserService<Admin> {
     }
 
     @Override
-    public Admin update(Admin user) {
+    public Admin update(Admin user) throws RuntimeException {
         return null;
     }
 
     @Override
-    public void delete(Admin user) {
+    public void delete(Admin user) throws RuntimeException {
 
     }
 }
