@@ -30,7 +30,7 @@ public class ClientService implements IUserService<Client> {
     }
 
     @Override
-    public void delete(Client user) throws RuntimeException {
+    public void delete(Long cc) throws RuntimeException {
 
     }
 }

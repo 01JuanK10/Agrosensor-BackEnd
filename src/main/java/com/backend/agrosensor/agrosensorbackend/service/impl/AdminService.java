@@ -41,7 +41,7 @@ public class AdminService implements IUserService<Admin> {
     }
 
     @Override
-    public void delete(Admin user) throws RuntimeException {
+    public void delete(Long cc) throws RuntimeException {
 
     }
 }
