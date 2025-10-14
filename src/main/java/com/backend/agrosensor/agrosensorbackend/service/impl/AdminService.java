@@ -42,6 +42,9 @@ public class AdminService implements IUserService<Admin> {
 
     @Override
     public void delete(Long cc) throws RuntimeException {
-
+        if (adminRepository.findById(cc).isEmpty()) {
+            throw new RuntimeException();
+        }
+        adminRepository.deleteById(cc);
     }
 }
