@@ -10,8 +10,12 @@ import java.util.List;
 
 @Service
 public class AdminService implements IUserService<Admin> {
-    @Autowired
-    private IAdminRepository adminRepository;
+
+    private final IAdminRepository adminRepository;
+
+    public AdminService(IAdminRepository adminRepository) {
+        this.adminRepository = adminRepository;
+    }
 
     @Override
     public Admin create(Admin user) throws RuntimeException {
