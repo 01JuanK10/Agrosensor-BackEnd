@@ -8,7 +8,6 @@ import jakarta.persistence.Table;
 import lombok.Data;
 
 @Data
-@Inheritance(strategy = InheritanceType.JOINED)
 @Entity
 @Table(name = "soil_measurement")
 public class SoilMeasurements extends Measurement {

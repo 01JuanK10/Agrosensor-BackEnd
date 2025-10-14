@@ -5,6 +5,7 @@ import lombok.Data;
 
 @Entity
 @Data
+@Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "notification")
 public abstract class Notification {
     @Id

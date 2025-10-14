@@ -7,7 +7,6 @@ import jakarta.persistence.InheritanceType;
 import jakarta.persistence.Table;
 
 
-@Inheritance(strategy = InheritanceType.JOINED)
 @Entity
 @Table(name = "app_notification")
 public class AppNotification extends Notification {

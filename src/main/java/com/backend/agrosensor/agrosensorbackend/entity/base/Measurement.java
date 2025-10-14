@@ -7,6 +7,7 @@ import lombok.Data;
 import java.time.LocalDateTime;
 
 @Entity
+@Inheritance(strategy = InheritanceType.JOINED)
 @Data
 @Table(name = "measurement")
 public abstract class Measurement {
