@@ -11,7 +11,7 @@ import lombok.Data;
 public abstract class AbstractUser {
 
     @Id
-    private Integer cc;
+    private Long cc;
     private String name;
     private String lastname;
 
