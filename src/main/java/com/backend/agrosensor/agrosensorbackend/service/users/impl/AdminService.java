@@ -1,9 +1,8 @@
-package com.backend.agrosensor.agrosensorbackend.service.impl;
+package com.backend.agrosensor.agrosensorbackend.service.users.impl;
 
 import com.backend.agrosensor.agrosensorbackend.entity.impl.users.Admin;
 import com.backend.agrosensor.agrosensorbackend.repository.users.IAdminRepository;
-import com.backend.agrosensor.agrosensorbackend.service.base.IUserService;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.backend.agrosensor.agrosensorbackend.service.users.base.IUserService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
