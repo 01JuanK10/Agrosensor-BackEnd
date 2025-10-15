@@ -1,4 +1,4 @@
-package com.backend.agrosensor.agrosensorbackend.service.users.base.impl;
+package com.backend.agrosensor.agrosensorbackend.service.users.impl;
 
 import com.backend.agrosensor.agrosensorbackend.entity.impl.users.Admin;
 import com.backend.agrosensor.agrosensorbackend.repository.users.IAdminRepository;
