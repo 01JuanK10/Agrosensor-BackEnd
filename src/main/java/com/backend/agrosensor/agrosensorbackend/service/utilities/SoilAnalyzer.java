@@ -6,36 +6,36 @@ import org.springframework.stereotype.Service;
 @Service
 public class SoilAnalyzer {
 
+    // Coeficientes ajustables según calibración o modelo entrenado
+    private static final double B0 = 5.0;   // Intercepto base
+    private static final double B1 = -0.04; // Humedad del suelo (soilMoisture)
+    private static final double B2 = 0.08;  // Temperatura ambiente (environmentTemperature)
+    private static final double B3 = -0.03; // Humedad ambiente (environmentMoisture)
+    private static final double B4 = 0.05;  // Iluminancia (soilIluminance)
+
+    public double calcularErosion(SoilMeasurement m) {
+        // Modelo de regresión lineal múltiple
+        double erosion = B0
+                + (B1 * m.getSoilMoisture())
+                + (B2 * m.getEnvironmentTemperature())
+                + (B3 * m.getEnvironmentMoisture())
+                + (B4 * m.getSoilIluminance());
+
+        // Limita la erosión a un rango razonable
+        return Math.max(0, erosion);
+    }
+
     public String analyze(SoilMeasurement m) {
-        StringBuilder status = new StringBuilder();
+        double erosion = calcularErosion(m);
 
-        if (m.getSoilMoisture() < 40)
-            status.append("Soil too dry. ");
-        else if (m.getSoilMoisture() > 70)
-            status.append("Soil too wet. ");
-        else
-            status.append("Soil moisture normal. ");
+        StringBuilder status = new StringBuilder("Erosion index: " + String.format("%.2f", erosion) + ". ");
 
-        if (m.getEnvironmentTemperature() < 20)
-            status.append("Temperature too low. ");
-        else if (m.getEnvironmentTemperature() > 30)
-            status.append("Temperature too high. ");
+        if (erosion < 10)
+            status.append("Low risk of soil erosion.");
+        else if (erosion < 20)
+            status.append("Moderate risk of soil erosion.");
         else
-            status.append("Temperature normal. ");
-
-        if (m.getEnvironmentMoisture() < 40)
-            status.append("Air too dry. ");
-        else if (m.getEnvironmentMoisture() > 60)
-            status.append("Air too humid. ");
-        else
-            status.append("Air humidity normal. ");
-
-        if (m.getSoilIluminance() < 40)
-            status.append("Low light. ");
-        else if (m.getSoilIluminance() > 80)
-            status.append("Too much light. ");
-        else
-            status.append("Light level normal. ");
+            status.append("High risk of soil erosion.");
 
         return status.toString();
     }

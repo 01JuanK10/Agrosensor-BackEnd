@@ -26,7 +26,7 @@ public class SoilMeasurementService implements IMeasurementService<SoilMeasureme
     @Override
     public SoilMeasurement create(SoilMeasurement measurement) throws RuntimeException {
         String conditionReport = soilAnalyzer.analyze(measurement);
-        if (conditionReport.contains("too")) {
+        if (conditionReport.contains("Moderate") || conditionReport.contains("High")) {
             AppNotification notification = new AppNotification();
             notification.setMessage("Alert: " + conditionReport);
             notification.setClient(measurement.getDevice().getClient());
