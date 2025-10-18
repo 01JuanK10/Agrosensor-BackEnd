@@ -23,8 +23,4 @@ public abstract class Measurement {
     @JoinColumn(name = "device_id")
     private Device device;
 
-    @OneToOne
-    @JoinColumn(name = "notification_id")
-    private Notification notification;
-
 }

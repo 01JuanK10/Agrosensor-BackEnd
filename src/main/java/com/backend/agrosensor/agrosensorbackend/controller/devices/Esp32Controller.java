@@ -1,5 +1,6 @@
 package com.backend.agrosensor.agrosensorbackend.controller.devices;
 
+import com.backend.agrosensor.agrosensorbackend.entity.base.device.Device;
 import com.backend.agrosensor.agrosensorbackend.entity.impl.devices.Esp32;
 import com.backend.agrosensor.agrosensorbackend.service.devices.impl.Esp32Service;
 import org.springframework.http.ResponseEntity;
@@ -18,8 +19,11 @@ public class Esp32Controller {
     }
 
     @PostMapping
-    public ResponseEntity<Esp32> create(@RequestBody Esp32 device) {
-        return ResponseEntity.ok(esp32Service.create(device));
+    public ResponseEntity<Esp32> create(@RequestBody Device device) {
+        return switch (device.getType()) {
+            case "esp32" -> ResponseEntity.ok(esp32Service.create((Esp32) device));
+            default -> ResponseEntity.badRequest().build();
+        };
     }
 
     @GetMapping("/{id}")

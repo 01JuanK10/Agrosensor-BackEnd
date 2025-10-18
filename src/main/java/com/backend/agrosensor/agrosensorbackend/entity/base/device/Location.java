@@ -1,8 +1,6 @@
 package com.backend.agrosensor.agrosensorbackend.entity.base.device;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Data;
 
 @Entity
@@ -10,6 +8,7 @@ import lombok.Data;
 @Data
 public class Location {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     private Float latitude;
     private Float longitude;
