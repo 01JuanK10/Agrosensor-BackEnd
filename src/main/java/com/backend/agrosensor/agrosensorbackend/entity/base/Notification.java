@@ -1,5 +1,7 @@
 package com.backend.agrosensor.agrosensorbackend.entity.base;
 
+import com.backend.agrosensor.agrosensorbackend.entity.base.device.Device;
+import com.backend.agrosensor.agrosensorbackend.entity.impl.users.Client;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -17,4 +19,8 @@ public abstract class Notification {
     public Notification() {
         this.readState = false;
     }
+
+    @ManyToOne
+    @JoinColumn(name = "client_id")
+    private Client client;
 }
