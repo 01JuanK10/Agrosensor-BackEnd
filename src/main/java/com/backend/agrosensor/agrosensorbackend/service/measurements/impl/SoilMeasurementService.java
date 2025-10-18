@@ -29,6 +29,7 @@ public class SoilMeasurementService implements IMeasurementService<SoilMeasureme
         if (conditionReport.contains("too")) {
             AppNotification notification = new AppNotification();
             notification.setMessage("Alert: " + conditionReport);
+            notification.setClient(measurement.getDevice().getClient());
             appNotificationService.create(notification);
         }
         return soilMeasurementsRepository.save(measurement);
