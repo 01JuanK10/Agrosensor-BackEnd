@@ -25,6 +25,7 @@ public class SoilMeasurementService implements IMeasurementService<SoilMeasureme
     
     @Override
     public SoilMeasurement create(SoilMeasurement measurement) throws RuntimeException {
+        measurement.setErosion((float) soilAnalyzer.calcularErosionIndex(measurement));
         String conditionReport = soilAnalyzer.analyze(measurement);
         if (conditionReport.contains("Moderate") || conditionReport.contains("High")) {
             AppNotification notification = new AppNotification();
