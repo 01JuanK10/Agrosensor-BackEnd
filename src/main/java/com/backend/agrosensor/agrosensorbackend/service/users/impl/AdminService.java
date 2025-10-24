@@ -18,7 +18,7 @@ public class AdminService implements IUserService<Admin> {
 
     @Override
     public Admin create(Admin user) throws RuntimeException {
-        if (adminRepository.findById(user.getCc()).isPresent()) {
+        if (adminRepository.findByCc(user.getCc()).isPresent()) {
             throw new RuntimeException();
         }
         return adminRepository.save(user);
@@ -26,7 +26,7 @@ public class AdminService implements IUserService<Admin> {
 
     @Override
     public Admin findByCc(Long cc) throws RuntimeException {
-        return adminRepository.findById(cc)
+        return adminRepository.findByCc(cc)
                 .orElseThrow(() -> new RuntimeException("User not found"));
     }
 
@@ -37,7 +37,7 @@ public class AdminService implements IUserService<Admin> {
 
     @Override
     public Admin update(Admin user) throws RuntimeException {
-        if (adminRepository.findById(user.getCc()).isEmpty()) {
+        if (adminRepository.findByCc(user.getCc()).isEmpty()) {
             throw new RuntimeException();
         }
         return adminRepository.save(user);
@@ -45,7 +45,7 @@ public class AdminService implements IUserService<Admin> {
 
     @Override
     public void delete(Long cc) throws RuntimeException {
-        if (adminRepository.findById(cc).isEmpty()) {
+        if (adminRepository.findByCc(cc).isEmpty()) {
             throw new RuntimeException();
         }
         adminRepository.deleteById(cc);

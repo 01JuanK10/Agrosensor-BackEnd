@@ -5,13 +5,18 @@ import com.backend.agrosensor.agrosensorbackend.entity.base.Notification;
 import com.backend.agrosensor.agrosensorbackend.entity.base.device.Device;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @Entity
 @Table(name = "clients")
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Client extends AbstractUser {
 
     @JsonIgnore
