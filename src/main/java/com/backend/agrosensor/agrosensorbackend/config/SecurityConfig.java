@@ -39,7 +39,7 @@ public class SecurityConfig {
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(req -> req
-                        .requestMatchers("/auth/**", "/utilities/**").permitAll()
+                        .requestMatchers("/auth/**", "/utilities/**", "/actuator/health").permitAll()
 
                         .requestMatchers(HttpMethod.POST, "/api/measurements/soil").hasRole("DEVICE")
                         .requestMatchers(HttpMethod.POST, "/api/devices/esp32").hasRole("DEVICE")
