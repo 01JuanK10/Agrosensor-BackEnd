@@ -27,7 +27,7 @@ public class Esp32Service implements IDeviceService<Esp32> {
         }
 
         Long clientId = device.getClient().getCc();
-        Client client = clientRepository.findById(clientId)
+        Client client = clientRepository.findByCc(clientId)
                 .orElseThrow(() -> new RuntimeException("Client not found"));
 
         device.setClient(client);
