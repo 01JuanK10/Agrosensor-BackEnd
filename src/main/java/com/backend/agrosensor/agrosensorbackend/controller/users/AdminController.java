@@ -17,11 +17,6 @@ public class AdminController {
         this.adminService = adminService;
     }
 
-    @PostMapping
-    public ResponseEntity<Admin> create(@RequestBody Admin admin) {
-        return ResponseEntity.ok(adminService.create(admin));
-    }
-
     @GetMapping("/{cc}")
     public ResponseEntity<Admin> findByCc(@PathVariable Long cc) {
         return ResponseEntity.ok(adminService.findByCc(cc));

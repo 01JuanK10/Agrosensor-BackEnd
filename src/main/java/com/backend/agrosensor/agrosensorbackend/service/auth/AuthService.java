@@ -4,13 +4,10 @@ import com.backend.agrosensor.agrosensorbackend.controller.auth.AuthRequest;
 import com.backend.agrosensor.agrosensorbackend.controller.auth.RegisterRequest;
 import com.backend.agrosensor.agrosensorbackend.controller.auth.TokenResponse;
 import com.backend.agrosensor.agrosensorbackend.entity.base.AbstractUser;
-import com.backend.agrosensor.agrosensorbackend.entity.base.device.Device;
 import com.backend.agrosensor.agrosensorbackend.entity.impl.users.Admin;
-import com.backend.agrosensor.agrosensorbackend.entity.impl.users.Client;
 import com.backend.agrosensor.agrosensorbackend.repository.Auth.Token;
 import com.backend.agrosensor.agrosensorbackend.repository.Auth.TokenRepository;
 import com.backend.agrosensor.agrosensorbackend.repository.users.IAdminRepository;
-import com.backend.agrosensor.agrosensorbackend.repository.users.IClientRepository;
 import com.backend.agrosensor.agrosensorbackend.repository.users.IUserRepository;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
@@ -25,8 +22,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AuthService {
     private final IUserRepository repository;
-    private final IAdminRepository adminRepository;
-    private final IClientRepository clientRepository;
     private final TokenRepository tokenRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtService jwtService;
@@ -44,30 +39,12 @@ public class AuthService {
 
         AbstractUser savedUser;
 
-        switch (request.role()){
-            case "ADMIN":
-                Admin admin = new Admin();
-                admin.setCc(user.getCc());
-                admin.setName(user.getName());
-                admin.setLastname(user.getLastname());
-                admin.setUsername(user.getUsername());
-                admin.setPassword(user.getPassword());
-                admin.setRole(user.getRole());
-                savedUser = adminRepository.save(admin);
-                break;
-            case "CLIENT":
-                Client client = new Client();
-                client.setCc(user.getCc());
-                client.setName(user.getName());
-                client.setLastname(user.getLastname());
-                client.setUsername(user.getUsername());
-                client.setPassword(user.getPassword());
-                client.setRole(user.getRole());
-                savedUser = clientRepository.save(client);
-                break;
-            default:
+        switch (request.role()) {
+            case "DEVICE":
                 savedUser = repository.save(user);
                 break;
+            default:
+                throw new IllegalArgumentException("Invalid role");
         }
 
         final String jwtToken = jwtService.generateToken(savedUser);
@@ -76,6 +53,7 @@ public class AuthService {
         saveUserToken(savedUser, jwtToken);
         return new TokenResponse(jwtToken, refreshToken);
     }
+
 
     public TokenResponse authenticate(final AuthRequest request) {
         authenticationManager.authenticate(

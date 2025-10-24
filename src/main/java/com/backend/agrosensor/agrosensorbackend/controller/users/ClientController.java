@@ -3,6 +3,7 @@ package com.backend.agrosensor.agrosensorbackend.controller.users;
 import com.backend.agrosensor.agrosensorbackend.entity.impl.users.Client;
 import com.backend.agrosensor.agrosensorbackend.service.users.impl.ClientService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -15,11 +16,6 @@ public class ClientController {
 
     public ClientController(ClientService clientService) {
         this.clientService = clientService;
-    }
-
-    @PostMapping
-    public ResponseEntity<Client> create(@RequestBody Client client) {
-        return ResponseEntity.ok(clientService.create(client));
     }
 
     @GetMapping("/{cc}")
