@@ -11,4 +11,5 @@ import lombok.Data;
 public class SoilMeasurement extends Measurement {
     private Float soilIluminance;
     private Float soilMoisture;
+    private Float erosion;
 }

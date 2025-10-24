@@ -18,7 +18,7 @@ public class ClientService implements IUserService<Client> {
 
     @Override
     public Client create(Client user) throws RuntimeException {
-        if (clientRepository.findById(user.getCc()).isPresent()) {
+        if (clientRepository.findByCc(user.getCc()).isPresent()) {
             throw new RuntimeException("Client already exists");
         }
         return clientRepository.save(user);
@@ -26,7 +26,7 @@ public class ClientService implements IUserService<Client> {
 
     @Override
     public Client findByCc(Long cc) throws RuntimeException {
-        return clientRepository.findById(cc)
+        return clientRepository.findByCc(cc)
                 .orElseThrow(() -> new RuntimeException("Client not found"));
     }
 
@@ -37,7 +37,7 @@ public class ClientService implements IUserService<Client> {
 
     @Override
     public Client update(Client user) throws RuntimeException {
-        if (clientRepository.findById(user.getCc()).isEmpty()) {
+        if (clientRepository.findByCc(user.getCc()).isEmpty()) {
             throw new RuntimeException("Client not found");
         }
         return clientRepository.save(user);
@@ -45,7 +45,7 @@ public class ClientService implements IUserService<Client> {
 
     @Override
     public void delete(Long cc) throws RuntimeException {
-        if (clientRepository.findById(cc).isEmpty()) {
+        if (clientRepository.findByCc(cc).isEmpty()) {
             throw new RuntimeException("Client not found");
         }
         clientRepository.deleteById(cc);
