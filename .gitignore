@@ -2,6 +2,7 @@ HELP.md
 application-*
 target/
 postgresql/
+dev/
 .mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
