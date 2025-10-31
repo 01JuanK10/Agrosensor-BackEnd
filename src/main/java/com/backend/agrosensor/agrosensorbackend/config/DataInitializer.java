@@ -30,15 +30,15 @@ public class DataInitializer implements CommandLineRunner {
             adminRepository.save(admin);
         }
 
-//        if (clientRepository.count() == 0) {
-//            Client client = new Client();
-//            client.setCc((long)1234567890);
-//            client.setName("Camilo1");
-//            client.setLastname("Alzate1");
-//            client.setUsername("camilo.alzate");
-//            client.setPassword(passwordEncoder.encode("password123"));
-//            client.setRole("CLIENT");
-//            clientRepository.save(client);
-//        }
+        if (clientRepository.count() == 0) {
+            Client client = new Client();
+            client.setCc((long)1234567890);
+            client.setName("Camilo1");
+            client.setLastname("Alzate1");
+            client.setUsername("camilo.alzate");
+            client.setPassword(passwordEncoder.encode("password123"));
+            client.setRole("CLIENT");
+            clientRepository.save(client);
+        }
     }
 }

@@ -30,6 +30,6 @@ public class ClientRegistrationService {
         final String jwtToken = jwtService.generateToken(savedClient);
         final String refreshToken = jwtService.generateRefreshToken(savedClient);
 
-        return new TokenResponse(jwtToken, refreshToken);
+        return new TokenResponse(jwtToken, refreshToken, client.getRole(), client.getName() + " " + client.getLastname());
     }
 }
