@@ -1,9 +1,7 @@
 package com.backend.agrosensor.agrosensorbackend.config;
 
-import com.backend.agrosensor.agrosensorbackend.entity.base.AbstractUser;
 import com.backend.agrosensor.agrosensorbackend.repository.Auth.Token;
 import com.backend.agrosensor.agrosensorbackend.repository.Auth.TokenRepository;
-import com.backend.agrosensor.agrosensorbackend.repository.users.IUserRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -21,8 +19,11 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -38,6 +39,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(final HttpSecurity http) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
+                .cors(cors -> cors.configurationSource(corsConfigurationSource())) //
                 .authorizeHttpRequests(req -> req
                         .requestMatchers("/auth/**", "/utilities/**", "/actuator/health").permitAll()
 
@@ -62,20 +64,38 @@ public class SecurityConfig {
         return http.build();
     }
 
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration config = new CorsConfiguration();
+
+        // En desarrollo:
+        config.setAllowedOrigins(List.of("http://localhost:4200"));
+
+        // En producción:
+        // config.setAllowedOrigins(List.of("https://tu-dominio.com"));
+
+        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        config.setAllowedHeaders(List.of("*"));
+        config.setAllowCredentials(true);
+        config.setExposedHeaders(List.of("Authorization", "Content-Type"));
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", config);
+        return source;
+    }
 
     private void logout(
             final HttpServletRequest request, final HttpServletResponse response,
             final Authentication authentication
     ) {
-
         final String authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             return;
         }
 
         final String jwt = authHeader.substring(7);
-        final Token storedToken = tokenRepository.findByToken(jwt)
-                .orElse(null);
+        final Token storedToken = tokenRepository.findByToken(jwt).orElse(null);
+
         if (storedToken != null) {
             storedToken.setIsExpired(true);
             storedToken.setIsRevoked(true);
