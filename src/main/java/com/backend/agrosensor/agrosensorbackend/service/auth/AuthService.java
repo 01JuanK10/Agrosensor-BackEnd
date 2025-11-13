@@ -4,10 +4,8 @@ import com.backend.agrosensor.agrosensorbackend.controller.auth.AuthRequest;
 import com.backend.agrosensor.agrosensorbackend.controller.auth.RegisterRequest;
 import com.backend.agrosensor.agrosensorbackend.controller.auth.TokenResponse;
 import com.backend.agrosensor.agrosensorbackend.entity.base.AbstractUser;
-import com.backend.agrosensor.agrosensorbackend.entity.impl.users.Admin;
 import com.backend.agrosensor.agrosensorbackend.repository.Auth.Token;
 import com.backend.agrosensor.agrosensorbackend.repository.Auth.TokenRepository;
-import com.backend.agrosensor.agrosensorbackend.repository.users.IAdminRepository;
 import com.backend.agrosensor.agrosensorbackend.repository.users.IUserRepository;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
@@ -51,7 +49,7 @@ public class AuthService {
         final String refreshToken = jwtService.generateRefreshToken(savedUser);
 
         saveUserToken(savedUser, jwtToken);
-        return new TokenResponse(jwtToken, refreshToken);
+        return new TokenResponse(jwtToken, refreshToken, savedUser.getRole(), savedUser.getUsername(), savedUser.getCc());
     }
 
 
@@ -68,7 +66,7 @@ public class AuthService {
         final String refreshToken = jwtService.generateRefreshToken(user);
         revokeAllUserTokens(user);
         saveUserToken(user, accessToken);
-        return new TokenResponse(accessToken, refreshToken);
+        return new TokenResponse(accessToken, refreshToken, user.getRole(), user.getName() + " " + user.getLastname(), user.getCc());
     }
 
     private void saveUserToken(AbstractUser user, String jwtToken) {
@@ -114,6 +112,6 @@ public class AuthService {
         revokeAllUserTokens(user);
         saveUserToken(user, accessToken);
 
-        return new TokenResponse(accessToken, refreshToken);
+        return new TokenResponse(accessToken, refreshToken, user.getRole(), user.getUsername() + " " + user.getLastname(), user.getCc());
     }
 }
