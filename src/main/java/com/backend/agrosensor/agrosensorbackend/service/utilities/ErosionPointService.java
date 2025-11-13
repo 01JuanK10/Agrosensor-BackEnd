@@ -8,13 +8,44 @@ import com.backend.agrosensor.agrosensorbackend.service.measurements.base.IMeasu
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Comparator;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
 @Service
 @RequiredArgsConstructor
 public class ErosionPointService {
-    private IDeviceService<Esp32> deviceService;
-    private IMeasurementService<SoilMeasurement> measurementService;
 
-    public MapPoint createErosionPoints(){
-        return null;
+    private final IDeviceService<Esp32> deviceService;
+    private final IMeasurementService<SoilMeasurement> measurementService;
+
+
+    public List<MapPoint> getErosionPointsByClient(Long cedula) {
+        List<Esp32> devices = deviceService.findAll().stream()
+                .filter(d -> d.getClient() != null && d.getClient().getCc().equals(cedula))
+                .toList();
+
+        List<SoilMeasurement> allMeasurements = measurementService.findAll();
+
+        return devices.stream()
+                .map(device -> {
+                    Optional<SoilMeasurement> latestMeasurement = allMeasurements.stream()
+                            .filter(m -> m.getDevice().getId().equals(device.getId()))
+                            .max(Comparator.comparing(SoilMeasurement::getDateTime)); // asumiendo que tiene un campo 'date'
+
+                    return latestMeasurement.map(m ->
+                            new MapPoint(
+                                    device.getLocation().getLatitude(),
+                                    device.getLocation().getLongitude(),
+                                    device.getLocation().getAddress(),
+                                    m.getErosion()
+                            )
+                    ).orElse(null);
+                })
+                .filter(Objects::nonNull)
+                .collect(Collectors.toList());
     }
+
 }

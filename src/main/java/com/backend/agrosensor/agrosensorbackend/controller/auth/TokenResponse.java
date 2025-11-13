@@ -10,6 +10,8 @@ public record TokenResponse(
         @JsonProperty("role")
         String role,
         @JsonProperty("name")
-        String name
+        String name,
+        @JsonProperty("cc")
+        Long cc
 ) {
 }
