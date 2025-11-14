@@ -28,6 +28,8 @@ public class AbstractUser {
     private String lastname;
 
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private String email;
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String username;
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;

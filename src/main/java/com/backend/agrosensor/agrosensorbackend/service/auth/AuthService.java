@@ -30,6 +30,7 @@ public class AuthService {
                 .cc(request.cc())
                 .name(request.name())
                 .lastname(request.lastname())
+                .email(request.email())
                 .username(request.username())
                 .password(passwordEncoder.encode(request.password()))
                 .role(request.role())
