@@ -20,6 +20,7 @@ public class ClientRegistrationService {
         Client client = new Client();
         client.setCc(request.cc());
         client.setName(request.name());
+        client.setEmail(request.email());
         client.setLastname(request.lastname());
         client.setUsername(request.username());
         client.setPassword(passwordEncoder.encode(request.password()));
