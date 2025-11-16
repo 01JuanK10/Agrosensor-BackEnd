@@ -1,25 +1,65 @@
 package com.backend.agrosensor.agrosensorbackend.service.utilities;
 
+
 import com.backend.agrosensor.agrosensorbackend.entity.base.AbstractUser;
 import com.backend.agrosensor.agrosensorbackend.repository.users.IUserRepository;
+import com.backend.agrosensor.agrosensorbackend.service.auth.AuthService;
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
 import lombok.AllArgsConstructor;
-import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @AllArgsConstructor
 @Service
 public class EmailService {
     private final JavaMailSender emailSender;
-    private final IUserRepository  userRepository;
 
-    public void sendEmail(String email) {
-        SimpleMailMessage message = new SimpleMailMessage();
-        AbstractUser to = userRepository.findByEmail(email).orElseThrow();
-        message.setTo(to.getEmail());
-        message.setFrom("enviarcorreo162@gmail.com");
-        message.setSubject("RECUPERACION DE CONTRASEÑA");
-        message.setText("\"Haz clic en el siguiente enlace para restablecer tu contraseña:\\n\"");
-        emailSender.send(message);
+    private final IUserRepository  userRepository;
+    private final AuthService authService;
+    private static final String CLIENT_URL = "http://localhost:4200/reset-password";
+
+    private String createUrl(AbstractUser user) {
+        String token = authService.generatePasswordResetToken(user);
+        return CLIENT_URL + "?tk=" + token + "&" + "usr=" + user.getUsername();
     }
+
+    public boolean sendEmail(String email) {
+        Optional<AbstractUser> optionalUser = userRepository.findByEmail(email);
+
+        if (optionalUser.isEmpty()) {
+            return false;
+        }
+
+        AbstractUser to = optionalUser.get();
+
+        try {
+            MimeMessage message = emailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, "utf-8");
+
+            String url = createUrl(to);
+
+            String htmlMsg = """
+            <p>Haz clic en el siguiente enlace para restablecer tu contraseña:</p>
+            <p>
+                <a href="%s" target="_blank">Restablecer contraseña</a>
+            </p>
+        """.formatted(url);
+
+            helper.setTo(to.getEmail());
+            helper.setFrom("enviarcorreo162@gmail.com");
+            helper.setSubject("RECUPERACION DE CONTRASEÑA");
+            helper.setText(htmlMsg, true);
+
+            emailSender.send(message);
+            return true;
+
+        } catch (MessagingException e) {
+            throw new RuntimeException("No se pudo enviar el email", e);
+        }
+    }
+
 }
