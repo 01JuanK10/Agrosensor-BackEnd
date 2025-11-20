@@ -1,13 +1,15 @@
 package com.backend.agrosensor.agrosensorbackend.config;
 
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Component;
+
 import com.backend.agrosensor.agrosensorbackend.entity.impl.users.Admin;
 import com.backend.agrosensor.agrosensorbackend.entity.impl.users.Client;
 import com.backend.agrosensor.agrosensorbackend.repository.users.IAdminRepository;
 import com.backend.agrosensor.agrosensorbackend.repository.users.IClientRepository;
+
 import lombok.RequiredArgsConstructor;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
@@ -36,7 +38,7 @@ public class DataInitializer implements CommandLineRunner {
             client.setCc((long)1234567890);
             client.setName("Camilo1");
             client.setLastname("Alzate1");
-            client.setUsername("client@email.com");
+            client.setEmail("camiloalzatebedoya15@gmail.com");
             client.setUsername("camilo.alzate");
             client.setPassword(passwordEncoder.encode("password123"));
             client.setRole("CLIENT");

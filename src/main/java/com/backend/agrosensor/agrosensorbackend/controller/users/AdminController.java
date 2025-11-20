@@ -1,11 +1,20 @@
 package com.backend.agrosensor.agrosensorbackend.controller.users;
 
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.backend.agrosensor.agrosensorbackend.entity.impl.users.Admin;
 import com.backend.agrosensor.agrosensorbackend.service.users.impl.AdminService;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/users/admins")
@@ -36,5 +45,12 @@ public class AdminController {
     public ResponseEntity<Void> delete(@PathVariable Long cc) {
         adminService.delete(cc);
         return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping("/{id}")
+    public ResponseEntity<?> patch(
+            @PathVariable Long id,
+            @RequestBody Map<String, Object> updates) {
+        return ResponseEntity.ok(adminService.patch(id, updates));
     }
 }

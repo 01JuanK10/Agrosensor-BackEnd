@@ -1,10 +1,7 @@
 package com.backend.agrosensor.agrosensorbackend.config;
 
-import com.backend.agrosensor.agrosensorbackend.repository.Auth.Token;
-import com.backend.agrosensor.agrosensorbackend.repository.Auth.TokenRepository;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import lombok.RequiredArgsConstructor;
+import java.util.List;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
@@ -23,7 +20,12 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import java.util.List;
+import com.backend.agrosensor.agrosensorbackend.repository.Auth.Token;
+import com.backend.agrosensor.agrosensorbackend.repository.Auth.TokenRepository;
+
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import lombok.RequiredArgsConstructor;
 
 @Configuration
 @EnableWebSecurity
@@ -39,12 +41,12 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(final HttpSecurity http) throws Exception {
         http
                 .csrf(AbstractHttpConfigurer::disable)
-                .cors(cors -> cors.configurationSource(corsConfigurationSource())) //
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(req -> req
                         .requestMatchers("/auth/**", "/utilities/**", "/actuator/health").permitAll()
 
                         .requestMatchers(HttpMethod.POST, "/api/measurements/soil").hasRole("DEVICE")
-                        .requestMatchers(HttpMethod.POST, "/api/devices/esp32").hasRole("DEVICE")
+                        .requestMatchers(HttpMethod.POST, "/api/devices/esp32").hasAnyRole("DEVICE", "ADMIN")
 
                         .requestMatchers("/admin/**", "/api/users/admins").hasRole("ADMIN")
 
@@ -74,7 +76,7 @@ public class SecurityConfig {
         // En producción:
         // config.setAllowedOrigins(List.of("https://tu-dominio.com"));
 
-        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+        config.setAllowedMethods(List.of("*"));
         config.setAllowedHeaders(List.of("*"));
         config.setAllowCredentials(true);
         config.setExposedHeaders(List.of("Authorization", "Content-Type"));

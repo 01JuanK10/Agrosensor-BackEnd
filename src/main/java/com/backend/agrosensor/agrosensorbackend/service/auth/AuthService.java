@@ -115,4 +115,12 @@ public class AuthService {
 
         return new TokenResponse(accessToken, refreshToken, user.getRole(), user.getUsername() + " " + user.getLastname(), user.getCc());
     }
+
+    public String generatePasswordResetToken(AbstractUser user) {
+        String token = jwtService.generateToken(user);
+        revokeAllUserTokens(user);
+        saveUserToken(user, token);
+        return token;
+    }
+
 }

@@ -1,20 +1,24 @@
 package com.backend.agrosensor.agrosensorbackend.service.users.impl;
 
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+
 import com.backend.agrosensor.agrosensorbackend.entity.impl.users.Admin;
 import com.backend.agrosensor.agrosensorbackend.repository.users.IAdminRepository;
 import com.backend.agrosensor.agrosensorbackend.service.users.base.IUserService;
-import org.springframework.stereotype.Service;
 
-import java.util.List;
+import lombok.AllArgsConstructor;
 
+@AllArgsConstructor
 @Service
 public class AdminService implements IUserService<Admin> {
 
     private final IAdminRepository adminRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public AdminService(IAdminRepository adminRepository) {
-        this.adminRepository = adminRepository;
-    }
 
     @Override
     public Admin create(Admin user) throws RuntimeException {
@@ -50,4 +54,24 @@ public class AdminService implements IUserService<Admin> {
         }
         adminRepository.deleteById(cc);
     }
+
+    @Override
+    public Admin patch(Long cc, Map<String, Object> updates) {
+        Admin admin = adminRepository.findByCc(cc)
+            .orElseThrow(() -> new RuntimeException("Admin not found"));
+
+        updates.forEach((key, value) -> {
+            switch (key) {
+                case "name" -> admin.setName((String) value);
+                case "lastname" -> admin.setLastname((String) value);
+                case "email" -> admin.setEmail((String) value);
+                case "username" -> admin.setUsername((String) value);
+                case "password" -> admin.setPassword(passwordEncoder.encode((String) value));
+                default -> throw new RuntimeException("Campo no permitido: " + key);
+            }
+        });
+
+        return adminRepository.save(admin);
+    }
+
 }
