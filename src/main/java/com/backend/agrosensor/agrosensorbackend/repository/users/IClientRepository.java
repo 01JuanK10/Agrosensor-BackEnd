@@ -1,11 +1,11 @@
 package com.backend.agrosensor.agrosensorbackend.repository.users;
 
-import com.backend.agrosensor.agrosensorbackend.entity.base.AbstractUser;
-import com.backend.agrosensor.agrosensorbackend.entity.impl.users.Client;
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
+import com.backend.agrosensor.agrosensorbackend.entity.impl.users.Client;
 
 @Repository
 public interface IClientRepository extends JpaRepository<Client,Long> {

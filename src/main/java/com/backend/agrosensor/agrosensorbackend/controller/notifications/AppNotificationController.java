@@ -34,7 +34,7 @@ public class AppNotificationController {
         return ResponseEntity.ok(appNotificationService.create(notification));
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("id/{id}")
     public ResponseEntity<AppNotification> findById(@PathVariable Long id) {
         return ResponseEntity.ok(appNotificationService.findById(id));
     }
