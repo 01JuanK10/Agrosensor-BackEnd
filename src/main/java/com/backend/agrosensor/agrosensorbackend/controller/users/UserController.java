@@ -1,5 +1,6 @@
 package com.backend.agrosensor.agrosensorbackend.controller.users;
 
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
@@ -25,7 +26,7 @@ public class UserController {
     private final PasswordEncoder passwordEncoder;
 
     @PostMapping("/reset-password/{username}")
-    public ResponseEntity<?> resetPassword(@RequestBody String password, @PathVariable String username) {
+    public ResponseEntity<?> resetPassword(@RequestBody Map<String, String> body, @PathVariable String username) {
         Optional<AbstractUser> userOptional = repository.findByUsername(username);
 
         if (userOptional.isEmpty()) {
@@ -34,6 +35,7 @@ public class UserController {
         }
 
         AbstractUser user = userOptional.get();
+        String password = body.get("password");
 
         if (password == null || password.isBlank()) {
             return ResponseEntity.badRequest().body("Password cannot be empty.");

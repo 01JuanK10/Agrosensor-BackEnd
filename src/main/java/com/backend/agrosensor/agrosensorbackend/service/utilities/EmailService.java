@@ -1,17 +1,19 @@
 package com.backend.agrosensor.agrosensorbackend.service.utilities;
 
 
-import com.backend.agrosensor.agrosensorbackend.entity.base.AbstractUser;
-import com.backend.agrosensor.agrosensorbackend.repository.users.IUserRepository;
-import com.backend.agrosensor.agrosensorbackend.service.auth.AuthService;
-import jakarta.mail.MessagingException;
-import jakarta.mail.internet.MimeMessage;
-import lombok.AllArgsConstructor;
+import java.util.Optional;
+
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
+import com.backend.agrosensor.agrosensorbackend.entity.base.AbstractUser;
+import com.backend.agrosensor.agrosensorbackend.repository.users.IUserRepository;
+import com.backend.agrosensor.agrosensorbackend.service.auth.AuthService;
+
+import jakarta.mail.MessagingException;
+import jakarta.mail.internet.MimeMessage;
+import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 @Service
@@ -24,7 +26,7 @@ public class EmailService {
 
     private String createUrl(AbstractUser user) {
         String token = authService.generatePasswordResetToken(user);
-        return CLIENT_URL + "?tk=" + token + "&" + "usr=" + user.getUsername();
+        return CLIENT_URL + "?tk=" + token + "&usr=" + user.getUsername() + "&role=USER";
     }
 
     public boolean sendEmail(String email) {
