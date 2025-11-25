@@ -43,14 +43,21 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .authorizeHttpRequests(req -> req
-                        .requestMatchers("/auth/**", "/utilities/**", "/actuator/health").permitAll()
+                    .requestMatchers("/auth/**",
+                        "/utilities/**", 
+                        "/actuator/health",
+                        "/swagger-ui.html",
+                        "/swagger-ui/**",
+                        "/v3/api-docs/**",
+                        "/v3/api-docs.yaml"
+                    ).permitAll()
 
-                        .requestMatchers(HttpMethod.POST, "/api/measurements/soil").hasRole("DEVICE")
-                        .requestMatchers(HttpMethod.POST, "/api/devices/esp32").hasAnyRole("DEVICE", "ADMIN")
+                    .requestMatchers(HttpMethod.POST, "/api/measurements/soil").hasRole("DEVICE")
+                    .requestMatchers(HttpMethod.POST, "/api/devices/esp32").hasAnyRole("DEVICE", "ADMIN")
 
-                        .requestMatchers("/admin/**", "/api/users/admins").hasRole("ADMIN")
+                    .requestMatchers("/admin/**", "/api/users/admins").hasRole("ADMIN")
 
-                        .anyRequest().hasAnyRole("ADMIN", "CLIENT")
+                    .anyRequest().hasAnyRole("ADMIN", "CLIENT")
                 )
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider)
