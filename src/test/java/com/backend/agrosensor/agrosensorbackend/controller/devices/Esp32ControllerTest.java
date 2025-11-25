@@ -17,6 +17,9 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import org.springframework.test.context.ActiveProfiles;
+
+@ActiveProfiles("test")
 @SpringBootTest
 @AutoConfigureMockMvc
 class Esp32ControllerTest {
