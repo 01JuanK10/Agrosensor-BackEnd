@@ -16,6 +16,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import java.util.List;
 
+import org.springframework.test.context.ActiveProfiles;
+
+@ActiveProfiles("test")
 @SpringBootTest
 @AutoConfigureMockMvc
 class SoilMeasurementControllerTest {
