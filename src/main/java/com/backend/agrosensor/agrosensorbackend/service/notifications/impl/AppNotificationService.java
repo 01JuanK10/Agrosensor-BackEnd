@@ -1,11 +1,12 @@
 package com.backend.agrosensor.agrosensorbackend.service.notifications.impl;
 
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
 import com.backend.agrosensor.agrosensorbackend.entity.impl.notifications.AppNotification;
 import com.backend.agrosensor.agrosensorbackend.repository.notifications.IAppNotificationRepository;
 import com.backend.agrosensor.agrosensorbackend.service.notifications.base.INotificationService;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class AppNotificationService implements INotificationService<AppNotification> {
