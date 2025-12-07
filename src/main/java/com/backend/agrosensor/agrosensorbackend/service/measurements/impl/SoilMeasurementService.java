@@ -1,5 +1,9 @@
 package com.backend.agrosensor.agrosensorbackend.service.measurements.impl;
 
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
 import com.backend.agrosensor.agrosensorbackend.entity.impl.measurements.SoilMeasurement;
 import com.backend.agrosensor.agrosensorbackend.entity.impl.notifications.AppNotification;
 import com.backend.agrosensor.agrosensorbackend.repository.measurements.ISoilMeasurementsRepository;
@@ -7,9 +11,6 @@ import com.backend.agrosensor.agrosensorbackend.service.measurements.base.IMeasu
 import com.backend.agrosensor.agrosensorbackend.service.notifications.impl.AppNotificationService;
 import com.backend.agrosensor.agrosensorbackend.service.users.impl.ClientService;
 import com.backend.agrosensor.agrosensorbackend.service.utilities.SoilAnalyzer;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class SoilMeasurementService implements IMeasurementService<SoilMeasurement> {
@@ -46,5 +47,9 @@ public class SoilMeasurementService implements IMeasurementService<SoilMeasureme
     @Override
     public List<SoilMeasurement> findAll() {
         return soilMeasurementsRepository.findAll();
+    }
+
+    public List<SoilMeasurement> findAllByCc(Long cc) {
+        return soilMeasurementsRepository.findAllByClientCc(cc);
     }
 }
