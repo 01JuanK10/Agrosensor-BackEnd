@@ -1,13 +1,14 @@
 package com.backend.agrosensor.agrosensorbackend.service.devices.impl;
 
+import java.util.List;
+
+import org.springframework.stereotype.Service;
+
 import com.backend.agrosensor.agrosensorbackend.entity.impl.devices.Esp32;
 import com.backend.agrosensor.agrosensorbackend.entity.impl.users.Client;
 import com.backend.agrosensor.agrosensorbackend.repository.devices.IEsp32Repository;
 import com.backend.agrosensor.agrosensorbackend.repository.users.IClientRepository;
 import com.backend.agrosensor.agrosensorbackend.service.devices.base.IDeviceService;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class Esp32Service implements IDeviceService<Esp32> {
@@ -48,11 +49,23 @@ public class Esp32Service implements IDeviceService<Esp32> {
 
     @Override
     public Esp32 update(Esp32 device) throws RuntimeException {
-        if (esp32Repository.findById(device.getId()).isEmpty()) {
-            throw new RuntimeException("Device not found");
-        }
-        return esp32Repository.save(device);
+
+        Esp32 existing = esp32Repository.findById(device.getId())
+                .orElseThrow(() -> new RuntimeException("Device not found"));
+
+        // Cargar el cliente REAL desde BD
+        Long clientId = device.getClient().getCc();
+
+        Client client = clientRepository.findByCc(clientId)
+                .orElseThrow(() -> new RuntimeException("Client not found"));
+
+        existing.setClient(client);
+        existing.setActive(device.getActive());
+        existing.setLocation(device.getLocation());
+
+        return esp32Repository.save(existing);
     }
+
 
     @Override
     public void delete(String id) throws RuntimeException {

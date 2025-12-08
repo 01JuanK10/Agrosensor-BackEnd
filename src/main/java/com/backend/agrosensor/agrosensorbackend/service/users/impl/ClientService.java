@@ -2,6 +2,7 @@ package com.backend.agrosensor.agrosensorbackend.service.users.impl;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -49,10 +50,11 @@ public class ClientService implements IUserService<Client> {
 
     @Override
     public void delete(Long cc) throws RuntimeException {
-        if (clientRepository.findByCc(cc).isEmpty()) {
+        Optional<Client> existingClient = clientRepository.findByCc(cc);
+        if (existingClient.isEmpty()) {
             throw new RuntimeException("Client not found");
         }
-        clientRepository.deleteById(cc);
+        clientRepository.delete(existingClient.get());
     }
 
     @Override

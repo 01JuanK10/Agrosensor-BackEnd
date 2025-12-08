@@ -18,7 +18,7 @@ services:
 
   backend:
     build:
-      context: ../
+      context: ../../../../../
       dockerfile: Dockerfile
     container_name: agrosensor_backend
     ports:
@@ -40,16 +40,31 @@ services:
       timeout: 5s
       retries: 5
 
-  esp32-sim:
+  esp32-sim1:
     build:
-      context: ./docker-iot/
+      context: ./docker-iot1/
       dockerfile: Dockerfile
-    container_name: esp32-sim
+    container_name: esp32-sim-01
     depends_on:
       backend:
         condition: service_healthy
     networks:
       - agrosensor_net
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  esp32-sim2:
+    build:
+      context: ./docker-iot2/
+      dockerfile: Dockerfile
+    container_name: esp32-sim-02
+    depends_on:
+      backend:
+        condition: service_healthy
+    networks:
+      - agrosensor_net
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
 
   pgadmin:
     image: dpage/pgadmin4
