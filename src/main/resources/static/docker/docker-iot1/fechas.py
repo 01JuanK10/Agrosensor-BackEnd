@@ -1,7 +1,7 @@
 import time
 import requests
 
-URL_SERVER_TIME = "http://backend:8080/utilities/server-time"
+URL_SERVER_TIME = "http://host.docker.internal:8080/utilities/server-time"
 server_time_offset = 0
 
 

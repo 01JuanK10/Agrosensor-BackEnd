@@ -16,9 +16,7 @@ import jakarta.persistence.Inheritance;
 import jakarta.persistence.InheritanceType;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
-import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -37,17 +35,14 @@ public class AbstractUser {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(unique = true, nullable = false)
-    @NotNull(message = "CC is required")
+    @Column(unique = true)
     private Long cc;
 
     private String name;
     private String lastname;
     
-    @Email(message = "Invalid email format")
-    @NotBlank(message = "Email is required")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @Column(unique = true, nullable = false)
+    @Column(unique = true)
     private String email;
 
     @NotBlank(message = "Username is required")

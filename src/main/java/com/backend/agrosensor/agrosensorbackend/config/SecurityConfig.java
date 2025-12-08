@@ -54,6 +54,7 @@ public class SecurityConfig {
 
                     .requestMatchers(HttpMethod.POST, "/api/measurements/soil").hasRole("DEVICE")
                     .requestMatchers(HttpMethod.POST, "/api/devices/esp32").hasAnyRole("DEVICE", "ADMIN")
+                    .requestMatchers(HttpMethod.PUT, "/api/devices/esp32").hasAnyRole("DEVICE", "ADMIN")
 
                     .requestMatchers("/admin/**", "/api/users/admins").hasRole("ADMIN")
 

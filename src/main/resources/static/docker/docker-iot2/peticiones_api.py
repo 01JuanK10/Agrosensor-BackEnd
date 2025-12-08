@@ -4,7 +4,7 @@ import requests
 from conexion_internet import obtener_mac
 from fechas import obtener_fecha_iso
 
-URL_BASE = "http://backend:8080"
+URL_BASE = "http://host.docker.internal:8080"
 URL_REGISTER_USER = URL_BASE + "/auth/register"
 URL_REFRESH_TOKEN = URL_BASE + "/auth/refresh-token"
 URL_REGISTER_DEVICE = URL_BASE + "/api/devices/esp32"
@@ -69,6 +69,7 @@ def registrar_dispositivo():
     data = {
         "type": "esp32",
         "id": mac,
+        "active": True,
         "location": {
             "latitude": 6.25184,
             "longitude": -75.56359,
@@ -78,7 +79,7 @@ def registrar_dispositivo():
     }
 
     try:
-        response = requests.post(
+        response = requests.put(
             URL_REGISTER_DEVICE,
             json=data,
             headers={

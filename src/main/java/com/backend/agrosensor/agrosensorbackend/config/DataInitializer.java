@@ -1,6 +1,5 @@
 package com.backend.agrosensor.agrosensorbackend.config;
 
-import java.time.LocalDateTime;
 import java.util.Random;
 
 import org.springframework.boot.CommandLineRunner;
@@ -9,7 +8,6 @@ import org.springframework.stereotype.Component;
 
 import com.backend.agrosensor.agrosensorbackend.entity.base.device.Location;
 import com.backend.agrosensor.agrosensorbackend.entity.impl.devices.Esp32;
-import com.backend.agrosensor.agrosensorbackend.entity.impl.measurements.SoilMeasurement;
 import com.backend.agrosensor.agrosensorbackend.entity.impl.users.Admin;
 import com.backend.agrosensor.agrosensorbackend.entity.impl.users.Client;
 import com.backend.agrosensor.agrosensorbackend.repository.devices.IEsp32Repository;
@@ -61,7 +59,7 @@ public class DataInitializer implements CommandLineRunner {
             client.setCc(1234567890L);
             client.setName("Camilo1");
             client.setLastname("Alzate1");
-            client.setEmail("camiloalzatebedoya15@gmail.com");
+            client.setEmail("camilo1@email.com");
             client.setUsername("camilo.alzate");
             client.setPassword(passwordEncoder.encode("password123"));
             client.setRole("CLIENT");
@@ -79,7 +77,7 @@ public class DataInitializer implements CommandLineRunner {
             device = new Esp32();
             device.setId("AA:BB:CC:DD:EE:FF");
             device.setType("esp32");
-            device.setActive(true);
+            device.setActive(false);
             device.setLocation(new Location());
             device.getLocation().setLatitude(6.25184f);
             device.getLocation().setLongitude(-75.56359f);
@@ -97,7 +95,7 @@ public class DataInitializer implements CommandLineRunner {
             device2 = new Esp32();
             device2.setId("11:22:33:44:55:66");
             device2.setType("esp32");
-            device2.setActive(true);
+            device2.setActive(false);
 
             device2.setLocation(new Location());
 
@@ -116,6 +114,7 @@ public class DataInitializer implements CommandLineRunner {
         // ========================
         //  4. Crear MEDICIONES
         // ========================
+        /* 
         if (soilMeasurementService.findAll().isEmpty()) {
 
             for (int i = 0; i < 5; i++) {
@@ -145,7 +144,7 @@ public class DataInitializer implements CommandLineRunner {
 
             System.out.println("✔ 10 mediciones creadas");
         }
-
+*/
 
     }
 
