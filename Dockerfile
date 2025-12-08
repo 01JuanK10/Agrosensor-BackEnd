@@ -10,7 +10,7 @@ COPY src/ src/
 
 RUN mvn clean package -DskipTests
 
-## FASE 2: RUNTIME LIGERO Y SEGURO
+## FASE 2: RUNTIME
 FROM eclipse-temurin:21-jre-alpine AS runtime
 
 RUN apk update && apk add --no-cache shadow curl && rm -rf /var/cache/apk/*
@@ -23,9 +23,6 @@ USER spring
 
 COPY --from=builder /app/target/*.jar app.jar
 
-ENV SPRING_PROFILES_ACTIVE=dev
-ENV SERVER_PORT=8080
+EXPOSE 8080
 
-EXPOSE ${SERVER_PORT}
-
-ENTRYPOINT ["java", "-Dspring.profiles.active=dev", "-jar", "app.jar"]
+ENTRYPOINT ["sh", "-c", "java -Dspring.profiles.active=${SPRING_PROFILES_ACTIVE} -jar app.jar"]
