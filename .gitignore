@@ -1,5 +1,4 @@
 HELP.md
-src/main/resources/application-prod.properties
 application-prod.yml
 target/
 .mvn/wrapper/maven-wrapper.jar
