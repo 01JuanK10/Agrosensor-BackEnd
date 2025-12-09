@@ -79,7 +79,7 @@ public class SecurityConfig {
         CorsConfiguration config = new CorsConfiguration();
 
         // En desarrollo:
-        config.setAllowedOrigins(List.of("http://localhost:4200"));
+        config.setAllowedOrigins(List.of("http://localhost:4200", "https://agrosensor-frontend.onrender.com"));
 
         // En producción:
         // config.setAllowedOrigins(List.of("https://tu-dominio.com"));
